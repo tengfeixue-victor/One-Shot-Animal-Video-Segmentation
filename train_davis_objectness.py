@@ -8,13 +8,18 @@ slim = tf.contrib.slim
 from utils import models
 from utils.load_data_davis_objectness import Dataset
 
+
 # User defined parameters
 gpu_id = 0
 
 # Training parameters
 pascal_base_iterations = 25000
 pascal_base_ckpt = 'weights/pascal_base_train_weights/pascal_train.ckpt-{}'.format(pascal_base_iterations)
+
 logs_path = os.path.join('weights', 'objectness_weights')
+if not os.path.exists(logs_path):
+    os.mkdir(logs_path)
+
 store_memory = True
 data_aug = True
 test_image = None

@@ -13,6 +13,8 @@ gpu_id = 0
 # Training parameters
 imagenet_ckpt = 'weights/imagenet_pretrain_weights/xception_ckpt_new'
 logs_path = os.path.join('weights', 'pascal_base_train_weights')
+if not os.path.exists(logs_path):
+    os.mkdir(logs_path)
 store_memory = True
 data_aug = True
 iter_mean_grad = 10

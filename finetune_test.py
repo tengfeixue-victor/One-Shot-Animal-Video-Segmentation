@@ -69,7 +69,9 @@ def train_test(video_path_names):
         # The path to obtain weights from objectness training
         objectness_path = os.path.join('weights', 'objectness_weights', 'objectness_weights.ckpt-{}'.format(objectness_steps))
         # The path to save weights of fine tuning
-        logs_path = os.path.join('weights/fine_tune_weights/', seq_name)
+        logs_path_base = os.path.join('weights', 'fine_tune_weights')
+        create_non_exist_file(logs_path_base)
+        logs_path = os.path.join(logs_path_base, seq_name)
         # the epochs for fine tuning
         max_training_iters = 200
         # max_training_iters = 10
@@ -84,7 +86,10 @@ def train_test(video_path_names):
                      in test_frames]
 
         # result paths
-        result_path = os.path.join('results', 'segmentation', seq_name)
+        create_non_exist_file('results')
+        result_path_base = os.path.join('results', 'segmentation')
+        create_non_exist_file(result_path_base)
+        result_path = os.path.join(result_path_base, seq_name)
         create_non_exist_file(result_path)
         # fmap_path = os.path.join('results', 'segmentation', 'feature_map', seq_name)
         # red_mask_path = os.path.join('results', 'red_mask', seq_name)
