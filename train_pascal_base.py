@@ -34,7 +34,7 @@ train_file = 'datasets/pretrain_benchmark_reduced.txt'
 # small dataset txt file for fast debugging
 # train_file = 'datasets/test_algorithm_pretrain_benchmark_reduced.txt'
 
-dataset = Dataset(train_file, None, './datasets/pascal_dataset',
+dataset = Dataset(train_file, None, './datasets/pascal_extension_dataset',
                   store_memory=store_memory, data_aug=data_aug)
 
 # Train the network
