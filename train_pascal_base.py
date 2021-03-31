@@ -28,8 +28,7 @@ learning_rate = 1e-6
 
 
 # Define Dataset
-# train_file = 'pretrain_pascal_and_benchmark_new.txt'
-# train_file = 'pretrain_benchmark.txt'
+# train_file = 'pretrain_pascal_and_benchmark.txt'
 train_file = 'datasets/pretrain_benchmark_reduced.txt'
 # small dataset txt file for fast debugging
 # train_file = 'datasets/test_algorithm_pretrain_benchmark_reduced.txt'
