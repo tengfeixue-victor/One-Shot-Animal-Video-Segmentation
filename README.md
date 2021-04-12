@@ -1,6 +1,6 @@
 # One-Shot-Animal-Video-Segmentation
 
-This repository makes available the source code, datasets, pre-trained weights for the work, "One-shot Learning-based Animal Video Segmentation", which is currently in review
+This repository makes available the source code, datasets, pre-trained weights for the work, "One-shot Learning-based Animal Video Segmentation", which is currently in review.
 
 Our proposed approach achieved mean intersection-over-union score of 89.2% on the DAVIS 2016 animal dataset [1] with only one labeled frame each video.
 
