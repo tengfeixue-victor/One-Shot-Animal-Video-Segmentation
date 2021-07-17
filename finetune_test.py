@@ -5,9 +5,20 @@ from __future__ import print_function
 import os
 import random
 import tensorflow as tf
-slim = tf.contrib.slim
+import time
+import numpy as np
+
 from utils import models
 from utils.load_data_finetune import Dataset
+from utils.logger import create_logger
+
+# seed
+seed = random.randint(1, 100000)
+# seed = 0
+tf.random.set_seed(seed)
+random.seed(seed)
+np.random.seed(seed)
+
 
 # User defined path parameters
 # finetuning (one label) and testing dataset
@@ -30,8 +41,7 @@ def select_optimal_frame(seq_name):
     # frame_txt = os.path.join(bub_frame_path, seq_name, 'frame_selection/all.txt')
     # # Select from BN0
     # frame_txt = os.path.join(bub_frame_path, seq_name, 'frame_selection/BN0.txt')
-
-    # Select from BNLF (BNLF has better results on DAVIS animal than BN0)
+    # Select from BNLF
     frame_txt = os.path.join(bub_frame_path, seq_name, 'frame_selection/BNLF.txt')
     frame_file = open(frame_txt, 'r')
     frame_nums = frame_file.readlines()
@@ -58,6 +68,7 @@ def select_optimal_frame(seq_name):
 
 
 def train_test(video_path_names):
+    start_time = time.time()
     for sequence_name in video_path_names:
         seq_name = "{}".format(sequence_name)
         gpu_id = 0
@@ -65,19 +76,31 @@ def train_test(video_path_names):
         # Train and test parameters
         # training and testing or testing only
         train_model = True
+
         objectness_steps = 45000
+
         # The path to obtain weights from objectness training
         objectness_path = os.path.join('weights', 'objectness_weights', 'objectness_weights.ckpt-{}'.format(objectness_steps))
         # The path to save weights of fine tuning
         logs_path_base = os.path.join('weights', 'fine_tune_weights')
         create_non_exist_file(logs_path_base)
         logs_path = os.path.join(logs_path_base, seq_name)
-        # the epochs for fine tuning
+        logger = create_logger(logs_path_base)
+        logger.info('The random seed is {}'.format(seed))
+
         max_training_iters = 200
-        # max_training_iters = 10
+
+        # use GFS
+        use_GFS = True
+
         # test data augmentation
         test_aug = True
 
+        # train data augmentation
+        data_aug = True
+        logger.info('Data augmentation is {}'.format(data_aug))
+        logger.info('Test augmentation is {}'.format(test_aug))
+        logger.info('Use GFS is {}'.format(use_GFS))
         # Define Dataset
         # the video for tesing
         test_frames = sorted(
@@ -91,28 +114,25 @@ def train_test(video_path_names):
         create_non_exist_file(result_path_base)
         result_path = os.path.join(result_path_base, seq_name)
         create_non_exist_file(result_path)
-        # fmap_path = os.path.join('results', 'segmentation', 'feature_map', seq_name)
-        # red_mask_path = os.path.join('results', 'red_mask', seq_name)
-        # create_non_exist_file(fmap_path)
-        # create_non_exist_file(red_mask_path)
 
         if train_model:
-            # # Train on the first frame
-            # train_imgs = [os.path.join('datasets', 'finetune_test_dataset',
-            # 'JPEGImages', '480p', seq_name, '00000.jpg') + ' ' + os.path.join('datasets', 'finetune_test_dataset',
-            # 'Annotations', '480p', seq_name, '00000.png')]
+            if use_GFS:
+                # BubbleNet selection: one optimal frame
+                frame_random_jpg, frame_random_png = select_optimal_frame(seq_name)
+                selected_image = os.path.join('datasets', 'finetune_test_dataset', 'JPEGImages', '480p', seq_name,
+                                              frame_random_jpg)
+                selected_mask = os.path.join('datasets', 'finetune_test_dataset', 'Annotations', '480p', seq_name,
+                                             frame_random_png)
+                train_imgs = [selected_image + ' ' + selected_mask]
+                logger.info('select frame {} in folder {}'.format(frame_random_jpg, seq_name))
+            else:
+                # Train on the first frame
+                logger.info('train on first frame')
+                train_imgs = [os.path.join('datasets', 'finetune_test_dataset',
+                'JPEGImages', '480p', seq_name, '00000.jpg') + ' ' + os.path.join('datasets', 'finetune_test_dataset',
+                'Annotations', '480p', seq_name, '00000.png')]
 
-            # BubbleNet selection: one optimal frame
-            frame_random_jpg, frame_random_png = select_optimal_frame(seq_name)
-            selected_image = os.path.join('datasets', 'finetune_test_dataset', 'JPEGImages', '480p', seq_name,
-                                          frame_random_jpg)
-            selected_mask = os.path.join('datasets', 'finetune_test_dataset', 'Annotations', '480p', seq_name,
-                                         frame_random_png)
-            train_imgs = [selected_image + ' ' + selected_mask]
-            print('select frame {} in folder {}'.format(frame_random_jpg, seq_name))
-
-            # test augmentation is on
-            dataset = Dataset(train_imgs, test_imgs, './', data_aug=True, test_aug=test_aug)
+            dataset = Dataset(train_imgs, test_imgs, './', data_aug=data_aug, test_aug=test_aug)
 
         # testing only
         else:
@@ -126,13 +146,14 @@ def train_test(video_path_names):
             save_step = max_training_iters
             # no side supervision
             side_supervision = 3
+            logger.info('The supervision mode is {}'.format(side_supervision))
             display_step = 10
             with tf.Graph().as_default():
                 with tf.device('/gpu:' + str(gpu_id)):
                     # global_step is related to the name of cpkt file
                     global_step = tf.Variable(0, name='global_step', trainable=False)
                     models.train_finetune(dataset, objectness_path, side_supervision, learning_rate, logs_path,
-                                          max_training_iters, save_step, display_step, global_step, finetune=1,
+                                          max_training_iters, save_step, display_step, global_step, logger, finetune=2,
                                           iter_mean_grad=1, ckpt_name=seq_name, dropout_rate=1.0)
 
         # Test the network
@@ -143,7 +164,11 @@ def train_test(video_path_names):
                                                seq_name + '.ckpt-' + str(max_training_iters))
                 # generate results images(binary) to the results path
                 models.test(dataset, checkpoint_path, result_path)
-                # models.test(dataset, checkpoint_path, result_path, feature_map_path=fmap_path)
+    end_time = time.time()
+    running_time = round(end_time - start_time, 3)
+    FPS = running_time/493.0
+    logger.info('The testing time is {}s'.format(running_time))
+    logger.info('The FPS is {}'.format(FPS))
 
 
 if __name__ == '__main__':

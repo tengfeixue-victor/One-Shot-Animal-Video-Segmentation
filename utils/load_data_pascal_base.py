@@ -60,6 +60,7 @@ class Dataset:
                         sys.stdout.write('Performing the data augmentation')
                     for scale in data_aug_scales:
                         img_size = tuple([int(img.size[0] * scale), int(img.size[1] * scale)])
+                        # img_size = tuple([224, 224])
                         img_sc = img.resize(img_size)
                         label_sc = label.resize(img_size)
                         self.images_train.append(np.array(img_sc, dtype=np.uint8))
@@ -70,6 +71,8 @@ class Dataset:
                             label_sc_fl = label_sc.transpose(Image.FLIP_LEFT_RIGHT)
                             self.images_train.append(np.array(img_sc_fl, dtype=np.uint8))
                             self.labels_train.append(np.array(label_sc_fl, dtype=np.uint8))
+
+                # no data augmentation
                 else:
                     if idx == 0:
                         sys.stdout.write('Loading the data')

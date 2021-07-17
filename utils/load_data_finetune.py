@@ -11,8 +11,7 @@ import matplotlib.pyplot as plt
 
 
 class Dataset:
-    def __init__(self, train_list, test_list, database_root, store_memory=True, data_aug=False, data_aug_heavy=False,
-                 test_aug=False):
+    def __init__(self, train_list, test_list, database_root, store_memory=True, data_aug=False, test_aug=False):
         """Initialize the Dataset object
         Args:
         train_list: TXT file or list with the paths of the images to use for training (Images must be between 0 and 255)
@@ -20,7 +19,6 @@ class Dataset:
         database_root: Path to the root of the Database
         store_memory: True stores all the training images, False loads at runtime the images
         data_aug: decide if data augmentation on training images will be executed
-        data_aug_heavy: decide if heavy data augmentation on training images will be executed
         test_aug: decide if data augmentation on testing images will be executed
         Returns:
         """
@@ -58,7 +56,8 @@ class Dataset:
                     if idx == 0:
                         sys.stdout.write('Performing the data augmentation')
                     # fig, ax = plt.subplots(4, 6, figsize=(21, 7))
-                    for i in range(60):
+                    # for i in range(60):
+                    for i in range(6):
                         rand = np.random.uniform(0.6, 1.3, 1)
                         aug_pipeline_scale_hflip = A.Compose([A.HorizontalFlip(p=0.5),
                                                               A.Resize(int(img.shape[0] * rand),
@@ -80,41 +79,7 @@ class Dataset:
                     self.images_train.append(np.array(img, dtype=np.uint8))
                     self.labels_train.append(np.array(label, dtype=np.uint8))
 
-                    if data_aug_heavy:
-                        for i in range(1, 40):
-                            # crop
-                            min_num = min(img.shape[0], img.shape[1])
-                            h_w_lst = [int(min_num / 2),
-                                       int(min_num / 1.5), int(min_num / 1.5), int(min_num / 1.5),
-                                       min_num, min_num,
-                                       min_num, min_num,
-                                       min_num, min_num]
-                            h = np.random.choice(h_w_lst)
-                            w = h
-                            aug_pipeline_hflip_rcrop = A.Compose([A.HorizontalFlip(p=0.5),
-                                                                  A.RandomCrop(h, w, p=0.8),
-                                                                  A.RandomBrightnessContrast(brightness_limit=0.2,
-                                                                                             contrast_limit=0.2,
-                                                                                             p=0.2),
-                                                                  A.GaussNoise(p=0.1)],
-                                                                 p=1.0)
-                            augmented_1 = aug_pipeline_hflip_rcrop(image=img, mask=label)
-                            self.images_train.append(np.array(augmented_1['image'], dtype=np.uint8))
-                            self.labels_train.append(np.array(augmented_1['mask'], dtype=np.uint8))
-
-                        for i in range(20):
-                            # image drop out
-                            aug_pipeline_bcnoise = A.Compose([A.HorizontalFlip(p=0.5),
-                                                              A.GridDropout(mask_fill_value=0,
-                                                                            ratio=0.4,
-                                                                            random_offset=True,
-                                                                            p=1.0)],
-                                                             p=1.0)
-                            augmented_2 = aug_pipeline_bcnoise(image=img, mask=label)
-                            self.images_train.append(np.array(augmented_2['image'], dtype=np.uint8))
-                            self.labels_train.append(np.array(augmented_2['mask'], dtype=np.uint8))
-
-
+                # no data augmentation
                 else:
                     if idx == 0:
                         sys.stdout.write('Loading the data')
@@ -140,7 +105,7 @@ class Dataset:
                     for _ in range(1):
                         aug_pipeline_bcnoise = A.Compose([A.HorizontalFlip(p=1.0)],
                                                          p=1.0)
-                        augmented_2 = aug_pipeline_bcnoise(image=img, mask=None)
+                        augmented_2 = aug_pipeline_bcnoise(image=img)
                         self.images_test.append(np.array(augmented_2['image'], dtype=np.uint8))
                         self.images_test_path.append(os.path.join(database_root, str(line.split()[0])))
                 if idx == 0:
