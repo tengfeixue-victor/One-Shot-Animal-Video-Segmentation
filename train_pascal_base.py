@@ -39,8 +39,7 @@ save_step = 5000
 test_image = None
 display_step = 10
 # learning rate setting
-ini_learning_rate = 1e-6
-end_learning_rate = 2.5 * 1e-7
+learning_rate = 1e-6
 batch_size = 1
 
 # log some important info
@@ -64,9 +63,6 @@ dataset = Dataset(train_file, None, './datasets/pascal_extension_dataset',
 with tf.Graph().as_default():
     with tf.device('/gpu:' + str(gpu_id)):
         global_step = tf.Variable(0, name='global_step', trainable=False)
-        learning_rate = tf.compat.v1.train.polynomial_decay(learning_rate=ini_learning_rate, global_step=global_step,
-                                                  decay_steps=max_training_iters,
-                                                  end_learning_rate=end_learning_rate, power=2)
         models.pre_train(dataset, imagenet_ckpt, supervision, learning_rate, logs_path, max_training_iters, save_step,
                            display_step, global_step, logger, finetune=0, iter_mean_grad=iter_mean_grad, test_image_path=test_image,
                            ckpt_name='pascal_train', dropout_rate=0.5, batch_size=batch_size, pretrained_model=pretrained_model)

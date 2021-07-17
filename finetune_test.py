@@ -58,7 +58,6 @@ def select_optimal_frame(seq_name):
         frame_suggestion2_png = frame_nums[4][:5] + '.png'
         frame_random_lst = random.choice(
             [[frame_suggestion1_jpg, frame_suggestion1_png], [frame_suggestion2_jpg, frame_suggestion2_png]])
-        # 这里每行都会包含一个换行符号，所以只取前9个字符，即'00000.jpg'
         frame_random_jpg = frame_random_lst[0][:9]
         frame_random_png = frame_random_lst[1][:9]
     else:
