@@ -22,7 +22,7 @@ Download ImageNet pretrained model for XceptionNet [imagenet_pretrain_weights.zi
 
 Download Pascal and its extension datasets [pascal_extension_dataset.zip](https://drive.google.com/file/d/16Ih-d3KPRmMrGUPpFO_QyW98Muu91LHs/view?usp=sharing) (1 GB), unzip it in "datasets" folder
 
-Then you can run **train_pascal_base.py** to start base training. Noticeably, the dataset here is large, which requires you to have a GPU with 12GB memory or more. You can reduce the number of training images by delete items in "datasets/pretrain_benchmark_reduced.txt". 
+Then you can run **train_pascal_base.py** to start base training. Noticeably, the dataset here is large, which requires you to have a GPU with 11GB memory or more. You can reduce the number of training images by delete items in "datasets/pretrain_benchmark_reduced.txt". 
 
 "pretrain_benchmark_and_pascal.txt" represents the full dataset and "test_algorithm_pretrain_benchmark_reduced.txt" is used to debug fast.
 
