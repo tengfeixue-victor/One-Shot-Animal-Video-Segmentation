@@ -1,10 +1,10 @@
 # One-Shot-Animal-Video-Segmentation
 
-This repository makes available the source code, datasets, pre-trained weights for the work, "One-shot Learning-based Animal Video Segmentation", which is currently in review.
+This repository makes available the source code, datasets, pre-trained weights for the work, "One-shot Learning-based Animal Video Segmentation", which is accepted by IEEE transactions on industrial informatics.
 
 Our proposed approach achieved mean intersection-over-union score of 89.5% on the DAVIS 2016 animal dataset [1] with only one labeled frame each video.
 
-The source code is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) license. The contents of this repository are released under an [Apache 2](LICENSE) license.
+The source code is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) license. The contents of this repository are released under an [MIT](LICENSE) license.
 
 ## Dependencies
 
@@ -44,8 +44,7 @@ Similar to objectness training, please note that the pretrained weights in "weig
 If you wanna evaluate the results quantatively as we did in paper, you can refer to the DAVIS official code https://davischallenge.org/davis2016/code.html
 
 ## Citations
-Our paper is in review currently. 
-If you use our work, please cite this github website address in your code.
+Comming soon. The article is currently in early access. If you borrow our work, please cite the github address for now.
 
 ## Reference
 [1] Perazzi, F., Pont-Tuset, J., McWilliams, B., Van Gool, L., Gross, M. and Sorkine-Hornung, A., 2016. A benchmark dataset and evaluation methodology for video object segmentation. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (pp. 724-732). https://davischallenge.org/davis2016/code.html
