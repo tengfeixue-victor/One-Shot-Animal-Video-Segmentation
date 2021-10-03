@@ -46,7 +46,15 @@ If you wanna evaluate the results quantatively as we did in paper, you can refer
 ## Citations
 Complete citation is comming soon. The article is currently in [early access](https://ieeexplore.ieee.org/document/9556571).
 ```
-@ARTICLE{9556571,  author={Xue, Tengfei and Qiao, Yongliang and Kong, He and Su, Daobilige and Pan, Shirui and Rafique, Khalid and Sukkarieh, Salah},  journal={IEEE Transactions on Industrial Informatics},   title={One-shot Learning-based Animal Video Segmentation},   year={2021},  volume={},  number={},  pages={1-1},  doi={10.1109/TII.2021.3117020}}
+@ARTICLE{9556571,  
+author={Xue, Tengfei and Qiao, Yongliang and Kong, He and Su, Daobilige and Pan, Shirui and Rafique, Khalid and Sukkarieh, Salah},  
+journal={IEEE Transactions on Industrial Informatics},   
+title={One-shot Learning-based Animal Video Segmentation},   
+year={2021},  
+volume={},  
+number={},  
+pages={1-1},  
+doi={10.1109/TII.2021.3117020}}
 ```
 
 ## Reference
