@@ -44,7 +44,10 @@ Similar to objectness training, please note that the pretrained weights in "weig
 If you wanna evaluate the results quantatively as we did in paper, you can refer to the DAVIS official code https://davischallenge.org/davis2016/code.html
 
 ## Citations
-Comming soon. The article is currently in early access. If you borrow our work, please cite the github address for now.
+Complete citation is comming soon. The article is currently in [early access](https://ieeexplore.ieee.org/document/9556571).
+```
+@ARTICLE{9556571,  author={Xue, Tengfei and Qiao, Yongliang and Kong, He and Su, Daobilige and Pan, Shirui and Rafique, Khalid and Sukkarieh, Salah},  journal={IEEE Transactions on Industrial Informatics},   title={One-shot Learning-based Animal Video Segmentation},   year={2021},  volume={},  number={},  pages={1-1},  doi={10.1109/TII.2021.3117020}}
+```
 
 ## Reference
 [1] Perazzi, F., Pont-Tuset, J., McWilliams, B., Van Gool, L., Gross, M. and Sorkine-Hornung, A., 2016. A benchmark dataset and evaluation methodology for video object segmentation. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (pp. 724-732). https://davischallenge.org/davis2016/code.html
