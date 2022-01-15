@@ -1,12 +1,12 @@
 # One-Shot-Animal-Video-Segmentation
 
-![Overview](https://github.com/tengfeixue-victor/One-Shot-Animal-Video-Segmentation/blob/master/utils/overview.png?raw=true "Overview")
-
 This repository makes available the source code, datasets, pre-trained weights for the work, "One-shot Learning-based Animal Video Segmentation", which is accepted by IEEE transactions on industrial informatics.
 
 Our proposed approach achieved mean intersection-over-union score of 89.5% on the DAVIS 2016 animal dataset [1] with only one labeled frame each video.
 
 The source code is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) license. The contents of this repository are released under an [MIT](LICENSE) license.
+
+![Overview](https://github.com/tengfeixue-victor/One-Shot-Animal-Video-Segmentation/blob/master/utils/overview.png?raw=true "Overview")
 
 ## Dependencies
 
