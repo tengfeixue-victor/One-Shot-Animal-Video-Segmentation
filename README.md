@@ -55,8 +55,7 @@ If you wanna evaluate the results quantatively as we did in paper, you can refer
   volume={18},
   number={6},
   pages={3799-3807},
-  doi={10.1109/TII.2021.3117020}
-  }
+  doi={10.1109/TII.2021.3117020}}
 ```
 
 ## Reference
